@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Moila Trends</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .filter-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin:30px 0;padding:16px 20px;background:var(--bg-card);border-radius:60px;border:1px solid var(--border);}
+    .search-box{flex:2;min-width:180px;}
+    .search-box input{width:100%;padding:10px 18px;background:var(--bg-main);border:1px solid var(--border);border-radius:40px;color:var(--text-main);font-size:0.9rem;font-family:inherit;}
+    .search-box input:focus{outline:none;border-color:var(--accent);}
+    .filter-buttons{display:flex;flex-wrap:wrap;gap:8px;}
+    .filter-btn{padding:7px 18px;background:transparent;border:1px solid var(--border);border-radius:40px;color:var(--text-muted);cursor:pointer;font-size:0.82rem;font-family:inherit;transition:all 0.2s;}
+    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#0e0d0b;}
+    .filter-btn:hover:not(.active){border-color:var(--accent);color:var(--accent);}
+    .product-count{color:var(--text-muted);font-size:0.82rem;padding:7px 14px;background:var(--bg-main);border-radius:40px;white-space:nowrap;}
+    @media(max-width:768px){.filter-bar{border-radius:20px;}.filter-buttons{justify-content:center;}}
+  </style>
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="container">
+  <div style="text-align:center;margin:40px 0;">
+    <div class="hero-badge">THE COLLECTION</div>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:400;font-size:2.5rem;">Your style <span class="moment">moments</span></h1>
+    <p style="color:var(--text-muted);margin-top:12px;">Curated pieces for the modern aesthetic</p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="search-box"><input type="text" id="searchInput" placeholder="🔍  Search products..." oninput="filterProducts()"></div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" onclick="setCategory('all',this)">All</button>
+      <button class="filter-btn" onclick="setCategory('clothing',this)">Clothing</button>
+      <button class="filter-btn" onclick="setCategory('footwear',this)">Footwear</button>
+      <button class="filter-btn" onclick="setCategory('outerwear',this)">Outerwear</button>
+      <button class="filter-btn" onclick="setCategory('electronics',this)">Electronics</button>
+      <button class="filter-btn" onclick="setCategory('accessories',this)">Accessories</button>
+      <button class="filter-btn" onclick="setCategory('women',this)">Women</button>
+    </div>
+    <div class="product-count" id="productCount">12 products</div>
+  </div>
+
+  <div class="grid" id="productsGrid">
+    <div class="product-card" data-name="Classic White T-Shirt" data-category="clothing" data-price="199"><div class="product-image"><img src="images/products/Classic_white_t-shirt.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Classic White T-Shirt</h3><div class="product-price">R199</div><button class="add-btn" onclick="shopAddToCart('Classic White T-Shirt',199,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Premium Cotton Hoodie" data-category="clothing" data-price="499"><div class="product-image"><img src="images/products/Premium_cotton_hoodie.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Premium Cotton Hoodie</h3><div class="product-price">R499</div><button class="add-btn" onclick="shopAddToCart('Premium Cotton Hoodie',499,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Ultra Boost Sneakers" data-category="footwear" data-price="899"><div class="product-image"><img src="images/products/Ultra_Boost_Sneakers.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Ultra Boost Sneakers</h3><div class="product-price">R899</div><button class="add-btn" onclick="shopAddToCart('Ultra Boost Sneakers',899,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Slim Fit Denim Jeans" data-category="clothing" data-price="1299"><div class="product-image"><img src="images/products/Slim_fit_denim.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Slim Fit Denim Jeans</h3><div class="product-price">R1,299</div><button class="add-btn" onclick="shopAddToCart('Slim Fit Denim Jeans',1299,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Genuine Leather Jacket" data-category="outerwear" data-price="2499"><div class="product-image"><img src="images/products/Genuine_leather_jacket.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Genuine Leather Jacket</h3><div class="product-price">R2,499</div><button class="add-btn" onclick="shopAddToCart('Genuine Leather Jacket',2499,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Wireless Bluetooth Earbuds" data-category="electronics" data-price="1599"><div class="product-image"><img src="images/products/Wireless_Bluetooth_Earbuds.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Wireless Bluetooth Earbuds</h3><div class="product-price">R1,599</div><button class="add-btn" onclick="shopAddToCart('Wireless Bluetooth Earbuds',1599,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Smart Fitness Watch" data-category="electronics" data-price="3999"><div class="product-image"><img src="images/products/Smart_fitness_watch.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Smart Fitness Watch</h3><div class="product-price">R3,999</div><button class="add-btn" onclick="shopAddToCart('Smart Fitness Watch',3999,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Premium Leather Backpack" data-category="accessories" data-price="1999"><div class="product-image"><img src="images/products/Premium_leather_backpack.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'></div>'"></div><div class="product-info"><h3>Premium Leather Backpack</h3><div class="product-price">R1,999</div><button class="add-btn" onclick="shopAddToCart('Premium Leather Backpack',1999,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Women's Summer Dress" data-category="women" data-price="799"><div class="product-image"><img src="images/products/Women's_summer_dress.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'>👗</div>'"></div><div class="product-info"><h3>Women's Summer Dress</h3><div class="product-price">R799</div><button class="add-btn" onclick="shopAddToCart('Womens Summer Dress',799,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Aviator Sunglasses" data-category="accessories" data-price="499"><div class="product-image"><img src="images/products/Aviator_sunglasses_with.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'>🕶️</div>'"></div><div class="product-info"><h3>Aviator Sunglasses</h3><div class="product-price">R499</div><button class="add-btn" onclick="shopAddToCart('Aviator Sunglasses',499,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Wool Blend Scarf" data-category="accessories" data-price="299"><div class="product-image"><img src="images/products/Wool_blend_scarf.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'>🧣</div>'"></div><div class="product-info"><h3>Wool Blend Scarf</h3><div class="product-price">R299</div><button class="add-btn" onclick="shopAddToCart('Wool Blend Scarf',299,this)">🛒 Add to Cart</button></div></div>
+
+    <div class="product-card" data-name="Running Shoes" data-category="footwear" data-price="1299"><div class="product-image"><img src="images/products/Running_shoes_in.jpeg" class="product-img" onerror="this.parentElement.innerHTML='<div style=\'font-size:64px;text-align:center;padding:80px 0;\'>👟</div>'"></div><div class="product-info"><h3>Running Shoes</h3><div class="product-price">R1,299</div><button class="add-btn" onclick="shopAddToCart('Running Shoes',1299,this)">🛒 Add to Cart</button></div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section"><h4>MOILA TRENDS</h4><p>A style moment</p></div>
+      <div class="footer-section"><h4>EXPLORE</h4><p><a href="shop.html">Collection</a></p></div>
+      <div class="footer-section"><h4>SUPPORT</h4><p><a href="#">Shipping</a></p><p><a href="#">Returns</a></p></div>
+      <div class="footer-section"><h4>FOLLOW</h4><p><a href="#">@moilatrends</a></p></div>
+    </div>
+    <div class="copyright">© 2026 Moila Trends — A style moment</div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="js/store.js"></script>
+<script>
+  var currentCategory = 'all';
+
+  function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    filterProducts();
+  }
+
+  function filterProducts() {
+    var search = document.getElementById('searchInput').value.toLowerCase();
+    var cards = document.querySelectorAll('.product-card');
+    var count = 0;
+    cards.forEach(function(card){
+      var name = card.getAttribute('data-name').toLowerCase();
+      var cat = card.getAttribute('data-category');
+      var show = name.includes(search) && (currentCategory === 'all' || cat === currentCategory);
+      card.style.display = show ? '' : 'none';
+      if (show) count++;
+    });
+    document.getElementById('productCount').textContent = count + ' product' + (count !== 1 ? 's' : '');
+    var noRes = document.getElementById('noResults');
+    if (count === 0) {
+      if (!noRes) {
+        var d = document.createElement('div');
+        d.id = 'noResults';
+        d.style.cssText = 'text-align:center;padding:60px;grid-column:1/-1;color:var(--text-muted);';
+        d.innerHTML = '<div style="font-size:48px;margin-bottom:16px;">🔍</div><h3>No products found</h3><p>Try adjusting your search or filter</p>';
+        document.getElementById('productsGrid').appendChild(d);
+      }
+    } else if (noRes) { noRes.remove(); }
+  }
+
+  function shopAddToCart(name, price, btn) {
+    addToCart(name, price);
+    var orig = btn.textContent;
+    btn.textContent = '✓ Added!';
+    btn.style.background = 'var(--success)';
+    btn.style.color = '#fff';
+    setTimeout(function(){ btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
+  }
+</script>
+</body>
+</html>

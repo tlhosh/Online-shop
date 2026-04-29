@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Moila Trends</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div class="auth-container">
+  <div class="auth-box">
+    <h2>Welcome Back</h2>
+    <div class="auth-subtitle">Sign in to your Moila Trends account</div>
+    <div id="errorMsg" class="error-message"></div>
+    <div id="successMsg" class="success-message"></div>
+    <form onsubmit="doLogin(event)">
+      <div class="input-group"><label>Email Address</label><input type="email" id="email" placeholder="hello@example.com" required></div>
+      <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="••••••••" required></div>
+      <button type="submit" class="auth-btn" id="loginBtn">Sign In</button>
+    </form>
+    <div class="auth-link"><a href="#" onclick="doForgot(event)">Forgot password?</a></div>
+    <div class="auth-link">Don't have an account? <a href="register.html">Create account</a></div>
+    <div class="guest-link"><a href="shop.html" style="color:var(--text-muted);">Continue as Guest →</a></div>
+  </div>
+</div>
+<footer><div class="container"><div class="copyright">© 2026 Moila Trends — A style moment</div></div></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="js/store.js"></script>
+<script>
+  var FIREBASE_CONFIG = {
+    apiKey:"AIzaSyAl4khLz2L5Y4J0B-YY2NEDcNZEJACxcQQ",
+    authDomain:"moila-s-trends.firebaseapp.com",
+    projectId:"moila-s-trends",
+    storageBucket:"moila-s-trends.firebasestorage.app",
+    messagingSenderId:"604874595479",
+    appId:"1:604874595479:web:d0761de1166cb3bfdc1dd2"
+  };
+
+  function getFirebaseAuth() {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    return firebase.auth();
+  }
+
+  function showErr(msg){ var d=document.getElementById('errorMsg'); d.textContent=msg; d.style.display='block'; document.getElementById('successMsg').style.display='none'; }
+  function showOk(msg){ var d=document.getElementById('successMsg'); d.textContent=msg; d.style.display='block'; document.getElementById('errorMsg').style.display='none'; }
+
+  /* If already logged in, redirect */
+  document.addEventListener('DOMContentLoaded', function(){
+    var u = localStorage.getItem('moila_user');
+    if (u) window.location.href = 'shop.html';
+  });
+
+  function doLogin(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var btn = document.getElementById('loginBtn');
+    btn.textContent = 'Signing in...'; btn.disabled = true;
+    document.getElementById('errorMsg').style.display='none';
+
+    var auth = getFirebaseAuth();
+    auth.signInWithEmailAndPassword(email, password)
+      .then(function(cred){
+        var user = cred.user;
+        localStorage.setItem('moila_user', JSON.stringify({
+          email: user.email,
+          name: user.displayName || user.email.split('@')[0]
+        }));
+        showOk('Login successful! Redirecting...');
+        setTimeout(function(){ window.location.href = 'shop.html'; }, 900);
+      })
+      .catch(function(err){
+        var msg = err.message || 'Login failed';
+        if (msg.includes('invalid-credential') || msg.includes('wrong-password') || msg.includes('INVALID_PASSWORD')) msg = 'Invalid email or password';
+        else if (msg.includes('user-not-found') || msg.includes('NO_SUCH_USER')) msg = 'No account found with this email';
+        else if (msg.includes('too-many-requests')) msg = 'Too many failed attempts. Try again later';
+        showErr(msg);
+        btn.textContent = 'Sign In'; btn.disabled = false;
+      });
+  }
+
+  function doForgot(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value;
+    if (!email) { showErr('Enter your email first'); return; }
+    var auth = getFirebaseAuth();
+    auth.sendPasswordResetEmail(email)
+      .then(function(){ showOk('Reset email sent! Check your inbox.'); })
+      .catch(function(err){ showErr(err.message); });
+  }
+</script>
+</body>
+</html>

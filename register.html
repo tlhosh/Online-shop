@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Moila Trends</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div class="auth-container">
+  <div class="auth-box">
+    <h2>Create Account</h2>
+    <div class="auth-subtitle">Join the Moila Trends community</div>
+    <div id="errorMsg" class="error-message"></div>
+    <div id="successMsg" class="success-message"></div>
+    <form onsubmit="doRegister(event)">
+      <div class="input-group"><label>Full Name</label><input type="text" id="fullName" placeholder="Your name" required></div>
+      <div class="input-group"><label>Email Address</label><input type="email" id="email" placeholder="hello@example.com" required></div>
+      <div class="input-group"><label>Password</label><input type="password" id="password" placeholder="Create a strong password" required><div class="password-requirements">Minimum 6 characters</div></div>
+      <div class="input-group"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Confirm your password" required></div>
+      <button type="submit" class="auth-btn" id="regBtn">Create Account</button>
+    </form>
+    <div class="auth-link">Already have an account? <a href="login.html">Sign in</a></div>
+    <div class="terms">By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
+  </div>
+</div>
+<footer><div class="container"><div class="copyright">© 2026 Moila Trends — A style moment</div></div></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="js/store.js"></script>
+<script>
+  var FIREBASE_CONFIG = {
+    apiKey:"AIzaSyAl4khLz2L5Y4J0B-YY2NEDcNZEJACxcQQ",
+    authDomain:"moila-s-trends.firebaseapp.com",
+    projectId:"moila-s-trends",
+    storageBucket:"moila-s-trends.firebasestorage.app",
+    messagingSenderId:"604874595479",
+    appId:"1:604874595479:web:d0761de1166cb3bfdc1dd2"
+  };
+
+  function getFirebaseAuth() {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    return firebase.auth();
+  }
+
+  function showErr(msg){ var d=document.getElementById('errorMsg'); d.textContent=msg; d.style.display='block'; document.getElementById('successMsg').style.display='none'; }
+  function showOk(msg){ var d=document.getElementById('successMsg'); d.textContent=msg; d.style.display='block'; document.getElementById('errorMsg').style.display='none'; }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var u = localStorage.getItem('moila_user');
+    if (u) window.location.href = 'shop.html';
+  });
+
+  function doRegister(e) {
+    e.preventDefault();
+    var fullName = document.getElementById('fullName').value.trim();
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var confirm = document.getElementById('confirmPassword').value;
+    document.getElementById('errorMsg').style.display='none';
+
+    if (!fullName) { showErr('Please enter your full name'); return; }
+    if (password !== confirm) { showErr('Passwords do not match'); return; }
+    if (password.length < 6) { showErr('Password must be at least 6 characters'); return; }
+
+    var btn = document.getElementById('regBtn');
+    btn.textContent = 'Creating account...'; btn.disabled = true;
+
+    var auth = getFirebaseAuth();
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(function(cred){
+        return cred.user.updateProfile({ displayName: fullName }).then(function(){
+          localStorage.setItem('moila_user', JSON.stringify({ email: cred.user.email, name: fullName }));
+          showOk('Account created! Redirecting...');
+          setTimeout(function(){ window.location.href = 'shop.html'; }, 1200);
+        });
+      })
+      .catch(function(err){
+        var msg = err.message || 'Registration failed';
+        if (msg.includes('email-already-in-use')) msg = 'Email already registered. Please login instead.';
+        else if (msg.includes('invalid-email')) msg = 'Please enter a valid email address';
+        showErr(msg);
+        btn.textContent = 'Create Account'; btn.disabled = false;
+      });
+  }
+</script>
+</body>
+</html>

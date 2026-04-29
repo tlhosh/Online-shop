@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moila Trends — A style moment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">WHERE STYLE MEETS MOMENT</div>
+      <h1>a style <span class="moment">moment</span></h1>
+      <p>Finally, a brand that understands modern elegance. The quality is amazing and every piece tells a story.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="shop.html"><button class="btn btn-primary">Explore Collection</button></a>
+        <a href="#story"><button class="btn btn-outline">Our Story →</button></a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="images/hero/AdobeExpressPhotos_ec699baddd734c66b8893d2783481e28_CopyEdited.jpg" alt="Moila Trends Style" class="hero-img" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item"><div class="stat-number">361</div><div class="stat-label">JACKETS</div></div>
+    <div class="stat-item"><div class="stat-number">174</div><div class="stat-label">SHIRTS</div></div>
+    <div class="stat-item"><div class="stat-number">49%</div><div class="stat-label">REPEAT CUSTOMERS</div></div>
+  </div>
+
+  <div class="quote-section" id="story">
+    <p>"At Moila Trends, fashion is more than clothing — it's an expression of who you are in every moment."</p>
+    <div class="quote-author">— MOILA TRENDS</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin:60px 0;">
+    <div class="feature-card"><div class="feature-icon">
+      <img src="icons/freeshipping.svg">
+    </div><h3>Free Shipping</h3><p style="color:var(--text-muted);">On orders over R999</p></div>
+    <div class="feature-card"><div class="feature-icon">
+      <img src="icons/lock.svg">
+    </div><h3>Secure Checkout</h3><p style="color:var(--text-muted);">100% secure payments</p></div>
+    <div class="feature-card"><div class="feature-icon">
+      <img src="icons/return.svg">
+    </div><h3>Easy Returns</h3><p style="color:var(--text-muted);">30-day return policy</p></div>
+    <div class="feature-card"><div class="feature-icon">
+      <img src="icons/OIP.webp">
+    </div><h3>Guest Checkout</h3><p style="color:var(--text-muted);">No account required</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section"><h4>MOILA TRENDS</h4><p>A style moment<br>It's about moments</p></div>
+      <div class="footer-section"><h4>EXPLORE</h4><p><a href="shop.html">Collection</a></p></div>
+      <div class="footer-section"><h4>SUPPORT</h4><p><a href="#">Shipping</a></p><p><a href="#">Returns</a></p></div>
+      <div class="footer-section"><h4>FOLLOW</h4><p><a href="#">@moilatrends</a></p></div>
+    </div>
+    <div class="copyright">© 2026 Moila Trends — A style moment. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="js/store.js"></script>
+</body>
+</html>
